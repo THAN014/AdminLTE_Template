@@ -171,12 +171,12 @@
                 <!--begin::User Image-->
                 <li class="user-header text-bg-primary">
                   <img
-                    src="./assets/img/user2-160x160.jpg"
+                    src="https://rms.tatc.ac.th/image.php?src=files/importpicstd/01/68319010014.jpg"
                     class="rounded-circle shadow"
                     alt="User Image"
                   />
                   <p>
-                    Alexander Pierce - Web Developer
+                    <?php echo $_SESSION['fullname'] ?>
                     <small>Member since Nov. 2023</small>
                   </p>
                 </li>
