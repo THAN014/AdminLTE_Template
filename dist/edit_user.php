@@ -1,70 +1,45 @@
-<?php 
+<?php
+    $username_from_url = $_GET['username'];
     require '../connect.php';
+
+    $sql = "SELECT * FROM users WHERE username = '$username_from_url'";
+    $result = $con->query($sql);
+    $row = mysqli_fetch_array($result);
+
+     if (!$row) {
+        echo "<script>
+            alert('ไม่พบผู้ใช้ที่ต้องการแก้ไข!');
+            window.location.href = 'index.php?page=users';
+        </script>";
+        exit;
+    }
+
     if (isset($_POST['submit'])) {
-        $username = $_POST['username'];
         $password = $_POST['password'];
         $fullname = $_POST['fullname'];
         $phone = $_POST['phone'];
         $email = $_POST['email'];
-
-        //chect if it empty
-        if (empty($username) || empty($password) || empty($fullname) || empty($phone) || empty($email)) {
-            echo 
-            "<script>
-            alert ('Please Fill All fields');
+        
+        $sql2 = "UPDATE users SET password='$password', fullname='$fullname', phone='$phone', email='$email' WHERE username='$username_from_url'";
+        $result2 = $con->query($sql2);
+        
+        if (!$result2) {
+            echo "<script>
+            alert ('Saving Error: " . mysqli_error($con) . "');
             history.back();
             </script>";
         } else {
-            //check if username already exists
-            $old_data = $con->query("SELECT * FROM users");
-            $old_num = mysqli_num_rows($old_data);
-            if ($old_num == 1) {
-                echo "
-                <script>
-                alert ('Username already exist')
-                </script>;";
-            }
-
-            else {
-                echo
-                "<script>window.location.href = 'index.php?page=users'</script>";
-            }
-        }
-        //add data
-        $sql = "INSERT INTO users VALUES('$username', '$password', '$fullname', '$phone', '$email')";
-        $result = $con->query($sql);
-        if (!$result) {
             echo "<script>
-            alert ('Saving Error);
-            history.back();
+            window.location.href = 'index.php?page=users'
             </script>";
         }
-            else 
-            $slq = "INSERT INTO users VALUES('$username', '$password', '$fullname', '$phone', '$email')";
-            $result = $con->query($sql);{
-                echo "<script>
-                window.location.href = 'index.php?page=users'
-                </script>";
-            }
-            if (!$result) {
-                echo "<script>
-                alert ('Saving Error');
-                history.back();
-                </script>";
-            } else {
-                echo "<script>
-                window.location.href = 'index.php?page=users'
-                </script>";
-            }
-        }
+    }
 ?>
-<div class="app-content-header">
-    <!--begin::Container-->
+    <div class="app-content-header">
     <div class="container-fluid">
-        <!--begin::Row-->
         <div class="row">
             <div class="col-sm-6">
-                <h3 class="mb-0">Add User Form</h3>
+                <h3 class="mb-0">Edit User Form</h3>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
@@ -73,29 +48,17 @@
                 </ol>
             </div>
         </div>
-        <!--end::Row-->
     </div>
-    <!--end::Container-->
 </div>
-<!--end::App Content Header-->
-<!--begin::App Content-->
 <div class="app-content">
-    <!--begin::Container-->
     <div class="container-fluid">
-        <!--begin::Row-->
         <div class="row g-4">
-            <!--begin::Col-->
             <div class="col-md-8">
-                <!--begin::Quick Example-->
                 <div class="card card-primary card-outline mb-4">
-                    <!--begin::Header-->
                     <div class="card-header">
-                        <div class="card-title">Add New User</div>
+                        <div class="card-title">Edit User</div>
                     </div>
-                    <!--end::Header-->
-                    <!--begin::Form-->
-                    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-                        <!--begin::Body-->
+                    <form action="<?php $_SERVER['PHP_SELF'] ?>?page=edit_user&username=<?php echo $username_from_url; ?>" method="post">
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Username</label>
@@ -104,11 +67,14 @@
                                     class="form-control"
                                     id="exampleInputEmail1"
                                     aria-describedby="emailHelp"
-                                    name="username" />
+                                    name="username"
+                                    value="<?php echo $row['username'] ?>" disabled/>
+                                    <input type="hidden" name="username" value="<?php echo $row['username'] ?>">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input type="password" name="password" class="form-control" id="exampleInputPassword1" />
+                                <input type="password" name="password" class="form-control" id="exampleInputPassword1"
+                                value="<?php echo $row['password'] ?>"/>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">ชื่อ-นามสกุล</label>
@@ -117,7 +83,8 @@
                                     class="form-control"
                                     id="exampleInputEmail1"
                                     aria-describedby="emailHelp"
-                                    name="fullname" />
+                                    name="fullname"
+                                    value="<?php echo $row['fullname'] ?>" />
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Phone</label>
@@ -126,7 +93,8 @@
                                     class="form-control"
                                     id="exampleInputEmail1"
                                     aria-describedby="emailHelp"
-                                    name="phone" />
+                                    name="phone"
+                                    value="<?php echo $row['phone'] ?>"/>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Email</label>
@@ -135,27 +103,16 @@
                                     class="form-control"
                                     id="exampleInputEmail1"
                                     aria-describedby="emailHelp"
-                                    name="email" />
+                                    name="email" 
+                                    value="<?php echo $row['email'] ?>" />
                             </div>
                         </div>
-                        <!--end::Body-->
-                        <!--begin::Footer-->
                         <div class="card-footer">
                             <button type="submit" name="submit" class="btn btn-primary">บันทึกข้อมูล</button>
                         </div>
-                        <!--end::Footer-->
                     </form>
-                    <!--end::Form-->
                 </div>
-                <!--end::Quick Example-->
-                <!--begin::Input Group-->
-                <!--end::Horizontal Form-->
             </div>
-            <!--end::Col-->
-            <!--begin::Col-->
-            <!--end::Col-->
         </div>
-        <!--end::Row-->
     </div>
-    <!--end::Container-->
 </div>

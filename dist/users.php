@@ -38,8 +38,8 @@ $result = $con->query($sql);
                     <!-- /.card-header -->
                     <div class="card-body">
                         <a href="index.php?page=add_user" class="btn btn-success mb-3">
-                        <i class="bi bi-person-add"></i>Add User
-                    </a>
+                            <i class="bi bi-person-add"></i>Add User
+                        </a>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -48,24 +48,32 @@ $result = $con->query($sql);
                                     <th>Full Name</th>
                                     <th>Phone</th>
                                     <th>Email</th>
+                                    <th>Manage</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $i = 1;
-                                while ($row = mysqli_fetch_assoc($result)) { ?>
+                                
+                                while ($row = mysqli_fetch_array($result)) { ?>
                                     <tr class="align-middle">
-                                        <td><?php echo $i?></td>
-                                        <td><?php echo $row['username']?></td>
-                                        <td><?php echo $row['fullname']?></td>
-                                        <td><?php echo $row['phone']?></td>
-                                        <td><?php echo $row['email']?></td>
+                                        <td><?php echo $i ?></td>
+                                        <td><?php echo $row['username'] ?></td>
+                                        <td><?php echo $row['fullname'] ?></td>
+                                        <td><?php echo $row['phone'] ?></td>
+                                        <td><?php echo $row['email'] ?></td>
+                                        <td>
+                                            <!-- Edit and Delete buttons -->
+                                            <a href="index.php?page=edit_user&username=<?php echo $row['username']?>" class="btn btn-warning ">
+                                                <i class="bi bi-pencil"> </i>Edit</a>
+                                            <a href="index.php?page=del_user&username=<?php echo $row['username']?>" class="btn btn-danger bi bi-trash3-fill"
+                                            onclick="return confirm('Confirm Delete?')">delete</a>
+                                        </td>
                                     </tr>
                                 <?php
                                     $i++;
                                 }
                                 ?>
-
                             </tbody>
                         </table>
                     </div>

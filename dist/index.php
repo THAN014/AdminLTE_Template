@@ -104,6 +104,12 @@ if (empty($_SESSION['username'])) {
         case 'add_user':
           include 'add_user.php';
           break;
+        case 'del_user':
+          include 'del_user.php';
+          break;
+        case 'edit_user':
+          include 'edit_user.php';
+          break;
         default:
           include 'dashboard.php';
           break;
