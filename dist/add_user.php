@@ -40,7 +40,7 @@
             </script>";
         }
             else 
-            $slq = "INSERT INTO users VALUES('$username', '$password', '$fullname', '$phone', '$email')";
+            $sql = "INSERT INTO users VALUES('$username', '$password', '$fullname', '$phone', '$email')";
             $result = $con->query($sql);{
                 echo "<script>
                 window.location.href = 'index.php?page=users'

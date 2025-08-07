@@ -101,11 +101,23 @@ if (empty($_SESSION['username'])) {
         case 'users':
           include 'users.php';
           break;
+        case 'product':
+          include 'products.php';
+          break;
+        case 'add_pro':
+          include 'add_pro.php';
+          break;
+        case 'edit_pro':
+          include 'edit_pro.php';
+          break;
         case 'add_user':
           include 'add_user.php';
           break;
         case 'del_user':
           include 'del_user.php';
+          break;
+          case 'del_pro':
+          include 'del_pro.php';
           break;
         case 'edit_user':
           include 'edit_user.php';

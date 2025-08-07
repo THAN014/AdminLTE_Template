@@ -40,6 +40,12 @@
           </a>
         </li>
         <li class="nav-item">
+          <a href="index.php?page=product" class="nav-link">
+            <i class="nav-icon bi bi-box2"></i>
+            <p>Product</p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="../logout.php" class="nav-link">
             <i class="bi bi-box-arrow-in-right"></i>
             <p>Logout</p>
