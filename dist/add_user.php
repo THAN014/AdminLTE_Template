@@ -1,62 +1,48 @@
-<?php 
-    require '../connect.php';
-    if (isset($_POST['submit'])) {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $fullname = $_POST['fullname'];
-        $phone = $_POST['phone'];
-        $email = $_POST['email'];
+<?php
+require '../connect.php';
+if (isset($_POST['submit'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $fullname = $_POST['fullname'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
 
-        //chect if it empty
-        if (empty($username) || empty($password) || empty($fullname) || empty($phone) || empty($email)) {
-            echo 
-            "<script>
+    //chect if it empty
+    if (empty($username) || empty($password) || empty($fullname) || empty($phone) || empty($email)) {
+        echo
+        "<script>
             alert ('Please Fill All fields');
             history.back();
             </script>";
-        } else {
-            //check if username already exists
-            $old_data = $con->query("SELECT * FROM users");
-            $old_num = mysqli_num_rows($old_data);
-            if ($old_num == 1) {
-                echo "
+    } else {
+        //check if username already exists
+        $old_data = $con->query("SELECT username FROM users WHERE username = '$username'");
+        $old_num = mysqli_fetch_array($old_data);
+        if ($old_num) {
+            echo "
                 <script>
                 alert ('Username already exist')
                 </script>;";
-            }
-
-            else {
-                echo
-                "<script>window.location.href = 'index.php?page=users'</script>";
-            }
-        }
-        //add data
-        $sql = "INSERT INTO users VALUES('$username', '$password', '$fullname', '$phone', '$email')";
-        $result = $con->query($sql);
-        if (!$result) {
-            echo "<script>
-            alert ('Saving Error);
-            history.back();
-            </script>";
-        }
-            else 
-            $sql = "INSERT INTO users VALUES('$username', '$password', '$fullname', '$phone', '$email')";
-            $result = $con->query($sql);{
+        } else {//add data
+             $sql = "INSERT INTO users VALUES('$username', '$password', '$fullname', '$phone', '$email')";
+                $result = $con->query($sql); {
                 echo "<script>
                 window.location.href = 'index.php?page=users'
                 </script>";
-            }
-            if (!$result) {
-                echo "<script>
+        }
+    }
+    if (!$result) {
+        echo "<script>
                 alert ('Saving Error');
                 history.back();
                 </script>";
-            } else {
-                echo "<script>
+    } else {
+        echo "<script>
                 window.location.href = 'index.php?page=users'
                 </script>";
-            }
         }
+    }
+}
 ?>
 <div class="app-content-header">
     <!--begin::Container-->

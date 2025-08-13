@@ -2,6 +2,17 @@
 require '../connect.php';
 $sql = "SELECT * FROM users";
 $result = $con->query($sql);
+
+// ใช้ GET ก่อน ถ้าไม่มีใช้ POST แทน
+$username = $_GET['username'] ?? $_POST['username'] ?? '';
+
+// ถ้ามี username → ดึงข้อมูลจาก DB
+if (!empty($username)) {
+  $sql = "SELECT * FROM users WHERE username = '$username'";
+  $result = $con->query($sql);
+  $row = mysqli_fetch_array($result);
+}
+
 ?>
 
 <div class="app-content-header">

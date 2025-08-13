@@ -6,11 +6,11 @@ if (session_status() === PHP_SESSION_NONE) {
 
 
 $host = "localhost";
-$username = "root";
+$db_username = "root";
 $password = "";
 $database_name = "014_1st_database-1-it";
 
-$con = mysqli_connect($host, $username, $password, $database_name);
+$con = mysqli_connect($host, $db_username, $password, $database_name);
 
 //check connection
 if (mysqli_connect_errno()) {

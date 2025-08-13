@@ -1,34 +1,39 @@
-<?php 
-    require '../connect.php';
-    if (isset($_POST['submit'])) {
-        $pro_id = $_POST['pro_id'];
-        $pro_name = $_POST['pro_name'];
-        $pro_price = $_POST['pro_price'];
-        $pro_amount = $_POST['pro_amount'];
-        $pro_status = $_POST['pro_status'];
+<?php
+require '../connect.php';
+if (isset($_POST['submit'])) {
+    $pro_id = $_POST['pro_id'];
+    $pro_name = $_POST['pro_name'];
+    $pro_price = $_POST['pro_price'];
+    $pro_amount = $_POST['pro_amount'];
+    $pro_status = $_POST['pro_status'];
 
-          // ตรวจสอบค่าว่าง
-  if (empty($pro_name) || empty($pro_price) || empty($pro_amount) || empty($pro_status)) {
-    echo "<script>alert('กรุณากรอกข้อมูลให้ครบถ้วน');history.back();</script>";
-  } else {
-    // ตรวจสอบว่า product id ซ้ำหรือไม่
-    $result = $con->query("SELECT pro_id FROM products WHERE pro_id = '$pro_id'");
-    $exist_pro_id = mysqli_fetch_array($result);
-
-    if ($exist_pro_id) {
-      echo "<script>alert('รหัสสินค้าซ้ำ กรุณาเปลี่ยนรหัสสินค้า');history.back();</script>";
+    // ตรวจสอบค่าว่าง
+    if (empty($pro_name) || empty($pro_price) || empty($pro_amount) || empty($pro_status)) {
+        echo "<script>alert('กรุณากรอกข้อมูลให้ครบถ้วน');history.back();</script>";
     } else {
-      // เพิ่มข้อมูลสินค้าใหม่
-      $sql = "INSERT INTO products (pro_id, pro_name, pro_price, pro_amount, pro_status)
-              VALUES ('$pro_id', '$pro_name', '$pro_price', '$pro_amount', '$pro_status')";
+        // ตรวจสอบว่า product id ซ้ำหรือไม่
+        $result = $con->query("SELECT pro_id FROM products WHERE pro_id = '$pro_id'");
+        $exist_pro_id = mysqli_fetch_array($result);
 
-      if ($con->query($sql)) {
-        echo "<script>window.location.href='index.php?page=product';</script>";
-      } else {
-        echo "<script>alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');history.back();</script>";
-      }
+        if ($exist_pro_id) {
+            echo "<script>alert('รหัสสินค้าซ้ำ กรุณาเปลี่ยนรหัสสินค้า');history.back();</script>";
+        } else {
+            // เพิ่มข้อมูลสินค้าใหม่
+            $sql = "INSERT INTO products 
+        (pro_id, 
+        pro_name, 
+        pro_price, 
+        pro_amount, 
+        pro_status)
+        VALUES ('$pro_id', '$pro_name', '$pro_price', '$pro_amount', '$pro_status')";
+
+            if ($con->query($sql)) {
+                echo "<script>window.location.href='index.php?page=product';</script>";
+            } else {
+                echo "<script>alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');history.back();</script>";
+            }
+        }
     }
-  }
 }
 ?>
 <div class="app-content-header">
@@ -72,10 +77,10 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">NAME</label>
-                                <input type="text" 
-                                name="pro_name"
-                                class="form-control" 
-                                id="exampleInputPassword1"/>
+                                <input type="text"
+                                    name="pro_name"
+                                    class="form-control"
+                                    id="exampleInputPassword1" />
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">PRICE</label>
